@@ -1,0 +1,10 @@
+#These are the CSV-data structures. There should be 2 CSV files made.
+InvoiceHeaderData.csv Should contain these header infos:
+InvoiceNumber, CompanyName, ReferenceNumber, InvoiceDate, DueDate, CompanyCode, BankAccountNumber, AmountExclVAT, VATAmount, TotalAmount 
+
+
+InvoiceRowData.csv Should contain these header infos:
+Description, Quantity, Unit, UnitPrice, VATPercent, VAT, Total, InvoiceNumber, RowNumber 
+
+
+
