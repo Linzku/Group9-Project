@@ -249,7 +249,7 @@ Loop all invoice rows
                         # Syötä laskun rivit tietokantaan
                         FOR    ${rowElement}    IN    @{ListToDB}
                             Add invoice row to DB    ${rowElement}
-                            
+                            #New features jahuuuuuu
                         END  
                     END
                     
