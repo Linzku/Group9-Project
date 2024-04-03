@@ -47,6 +47,7 @@ Add invoice header to DB
     # Asetetaan dateformat
     ${invoiceDate}=    Convert Date    ${items}[3]    date_format=%d.%m.%Y    result_format=%Y-%m-%d
     ${dueDate}=    Convert Date    ${items}[4]    date_format=%d.%m.%Y    result_format=%Y-%m-%d
+    #fixing date format
 
     # Invoice status muuttuja
     ${InvoiceStatus}=    Set Variable    0
