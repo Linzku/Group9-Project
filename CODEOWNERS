@@ -1,0 +1,13 @@
+# This is a comment.
+# Each line is a file pattern followed by one or more owners.
+# Default owner for everything, a later match takes precedence
+#* @petra2202
+# Marika owns txt.files and checks those changes.
+*.txt @m4rika22
+#Heidi owner of py.files
+*.py @heidi-999
+#Linnea owner of robot.files
+*.robot @Linzku
+#Petra owns
+*.json @petra22002
+
