@@ -26,6 +26,7 @@ def isReferenceNumberCorrect(referenceNumber):
 
     return False
 
+#hi
 def isEqual(headerTotal, rowTotal, maxDifference):
 
     if ( abs(headerTotal-rowTotal) < maxDifference):
