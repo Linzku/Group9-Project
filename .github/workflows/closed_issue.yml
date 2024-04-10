@@ -1,0 +1,19 @@
+name: Comment closed issues #the name of the workflow
+on: # This action will trigger when an issue is reopened or opened.
+  issues:
+    types:
+      - closed
+jobs: # The jobs that run in this workflow
+  label_issues: # the first job is named as label_issues
+    runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
+    permissions: # This job requires write access to issues in order to add labels and comment.
+      issues: write
+    steps: # The "steps" section contains the individual tasks that will be performed in this job
+      - name: Comment on closed issue #this is another step that comments on the issue 
+        uses: peter-evans/create-or-update-comment@v1 # This step uses the "peter-evans/create-or-update-comment" action to create or update a comment on the issue.
+        with:
+          issue-number: ${{ github.event.issue.number }} # The issue number is obtained from the context of the event that triggered the action.
+          body: | # The body of the comment is a message thanking the user for opening the issue.
+           Thanks for closing the issue.
+
+# Comment on when an issue is closed
