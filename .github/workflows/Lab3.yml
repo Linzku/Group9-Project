@@ -1,9 +1,13 @@
 name: Label & comment issues #the name of the workflow
-on: # This action will trigger when an issue is reopened or opened.
+on: # This action will trigger when an issue is reopened, opened, or closed.
   issues:
     types:
       - reopened
       - opened
+    closed:
+      types: [closed]
+  pull_request:
+    types: [opened]
 jobs: # The jobs that run in this workflow
   label_issues: # the first job is named as label_issues
     runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
@@ -28,5 +32,23 @@ jobs: # The jobs that run in this workflow
            Thanks for opening this issue! We'll take a look as soon as possible.
 
 # Comment on when an issue is closed
+      - name: Comment on closed issue #the name of the workflow of issue is closed
+        if: github.event_name == 'issues' && github.event.action == 'closed'
+        uses: peter-evans/create-or-update-comment@v1 # This step uses the "peter-evans/create-or-update-comment" action to create or update a comment on the issue.
+        with:
+          issue-number: ${{ github.event.issue.number }} # The issue number is obtained from the context of the event that triggered the action.
+          body: | # The body of the comment is a message thanking the user for opening the issue.
+           The issue is now resolved.
+          reactions: |
+            hooray
 
 # Comment on when an users opens the first pull request 
+      - name: Comment on new pull request
+        if: github.event_name == 'pull_request' && github.event.pull_request.number == 1
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+            issue-number: ${{ github.event.pull_request.number }}
+            body: |
+              Congratulations on opening your first pull request!
+            reactions: |
+              heart
