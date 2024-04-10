@@ -1,0 +1,17 @@
+name: Comment new pull request # The name of the workflow, can be any string
+on:
+  pull_request:
+    types:
+      - opened
+jobs:
+  comment_pr:
+    runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
+    permissions: # This job requires write access to issues in order to add labels and comment.
+      pull-requests: write
+    steps:
+      - name: Comment on new issue #this is another step that comments on the issue 
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }} # The issue number is obtained from the context of the event that triggered the action.
+          body: | # The body of the comment is a message thanking the user for opening the issue.
+            Jahuuu uusi pull request!
