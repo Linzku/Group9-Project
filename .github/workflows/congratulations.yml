@@ -1,0 +1,16 @@
+name: Comment on Pull Request
+
+on:
+  pull_request:
+    types: [opened] # This action will trigger when a new pull request is opened.
+
+jobs:
+  comment_on_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment on new pull request
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.pull_request.number }} # Pull request number from the event context.
+          body: |
+            Congratulations on opening your first pull request! 
