@@ -1,0 +1,67 @@
+name: Secoond Label & comment issues #the name of the workflow
+on: # This action will trigger when an issue is reopened or opened.
+  issues:
+    types:
+      - reopened
+      - opened
+      - closed
+  pull_request:
+    types:
+      - opened
+jobs: # The jobs that run in this workflow
+  label_issues: # the first job is named as label_issues
+    runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
+    permissions: # This job requires write access to issues in order to add labels and comment.
+      issues: write
+    if: github.event_name == 'issues' && github.event.action != 'closed' #This so the label or the open/reopen message won't be triggered by closed comment or pull_request
+    steps: # The "steps" section contains the individual tasks that will be performed in this job.
+      - name: attach label to issues # The name of the step
+        uses: actions/github-script@v6 # This step uses the "actions/github-script" action to execute a script that adds labels to the issue.
+        with:
+          script: | # The script calls the GitHub REST API to add labels to the issue.
+            github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["issue", "fix"]
+            })
+      - name: Comment on new issue #this is another step that comments on the issue 
+        uses: peter-evans/create-or-update-comment@v1 # This step uses the "peter-evans/create-or-update-comment" action to create or update a comment on the issue.
+        with:
+          issue-number: ${{ github.event.issue.number }} # The issue number is obtained from the context of the event that triggered the action.
+          body: | # The body of the comment is a message thanking the user for opening the issue.
+           Thanks for opening this issue! We'll take a look as soon as possible.
+
+# Comment on when an issue is closed
+
+  closed_issue_commented: # name for Comment on when an issue is closed as: closed_issue_commented
+    runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
+    permissions: # This job requires write access to issues in order to comment.
+      issues: write
+    if: github.event_name == 'issues'
+    steps: # The "steps" section contains the individual tasks that will be performed in this job.
+      - name: Comment on an issue closing #this is another step that comments on the issue 
+        if: github.event_name == 'issues' && github.event.action == 'closed' #If so that the event is triggered by closing an issue.
+        uses: peter-evans/create-or-update-comment@v1 # This step uses the "peter-evans/create-or-update-comment" action to create or update a comment on the issue.
+        with:
+          issue-number: ${{ github.event.issue.number }} # The issue number is obtained from the context of the event that triggered the action.
+          body: | # The body of the comment is a message stating that the issue has been resolved.
+           The issue is now resolved.
+
+# Comment on when an issue is closed
+
+  pull_request_comment: # name for Comment on when an issue is closed as: pull_request_comment
+      runs-on: ubuntu-latest # This job will run on the latest version of Ubuntu.
+      permissions: # This job requires write access to issues in order to comment.
+        pull-requests: write
+      steps: # The "steps" section contains the individual tasks that will be performed in this job.
+        - name: Comment on the new pull request # This is another step that comments on the pull request
+          #The commented line bellow would be the one that is only for the first pull request
+          #if: github.event_name == 'pull_request' && github.event.action == 'opened' && github.event.pull_request.number == 6 # Run this step only if the pull request number is 1
+          if: github.event_name == 'pull_request' && github.event.action == 'opened' #If so that the event is triggered by opening a pull_request
+          uses: peter-evans/create-or-update-comment@v1 # This step uses the "peter-evans/create-or-update-comment" action to create or update a comment on the pull request.
+          with:
+            issue-number: ${{ github.event.pull_request.number }} # The issue number is obtained from the context of the event that triggered the action.
+            body: | # The body of the comment is a message congratulating the person for the pull request.
+              Jahuuu uusi pull request!
+            #Congratulations! You have made your first pull request!!! Yey!
