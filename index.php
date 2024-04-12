@@ -6,7 +6,7 @@ include_once 'header.php'; ?>
 
 <h3>3.1 Write PHP code to output the following message:</h3>
 <?php 
-echo "Hello world! My name is \"David\"";
+echo "HHello world! My name is \"David\"";
 ?>
 
 <h3>3.2 Create a PHP variable named $title and assign it the value "PHP is interesting." Then, use this variable as the content within an  (heading 4) element.</h3>
