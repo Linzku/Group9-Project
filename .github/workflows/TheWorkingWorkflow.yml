@@ -59,11 +59,12 @@ jobs: # The jobs that run in this workflow
       - name: Check if it's the first pull request
         if: github.event_name == 'pull_request' && github.event.action == 'opened' 
         id: check_first_pull_request
-        #Then a script that check if the pull request is the first in the repository or not. if true it sets the output true of the 
+        #Then a script that check if the pull request is the persons first time making a pull request in the repository or not. if true it sets the output true of the 
         run: |
+          author=$(jq -r '.pull_request.user.login' $GITHUB_EVENT_PATH)
           response=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://api.github.com/repos/${{ github.repository }}/pulls?state=all")
-          pull_requests_count=$(echo "$response" | jq length) 
-          if [ "$pull_requests_count" == 1 ]; then
+          previous_pull_requests=$(echo "$response" | jq -r ".[] | select(.user.login == \"$author\")")
+          if [ -z "$previous_pull_requests" ]; then
             echo "::set-output name=is_first_pull_request::true"
           else
             echo "::set-output name=is_first_pull_request::false"
