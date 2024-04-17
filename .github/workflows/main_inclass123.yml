@@ -63,4 +63,4 @@ jobs:
           app-name: 'inclass123'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F15CA606F991462990614301726F3646 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_548A544F2B924432A2990AFA717046F0 }}
